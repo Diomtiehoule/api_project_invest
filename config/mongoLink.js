@@ -1,0 +1,1 @@
+export const url = "mongodb+srv://abrahamdiomande85:Diom@cluster0.p3nylof.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
