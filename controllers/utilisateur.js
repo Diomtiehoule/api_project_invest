@@ -69,6 +69,77 @@ class UtilisateurController {
             res.status(500).json({message : "une erreur est survenue lors du traitement !!!"})
          }
     }
+
+    /**
+     * @param {request} req
+     * @param {response} res
+     */
+    static async edit(req , res){
+        try {
+            const { id } = req.params
+            const { userId } = req.auth
+            const user = await UtilisateurModel.findById({_id : userId})
+            if(!user) res.status(400).json({message : "vous n'avez pas cette autorisation !!!"})
+            await UtilisateurModel.updateOne({_id : userId , status :1}, req.body)
+            .then(success =>{
+                res.status(200).json({status : true ,message : "Vos informations oont étées modifiés avec succès !!!" , success})
+            })
+            .catch(err =>{
+                res.status(400).json({status : false ,message : "Impossible de modifier les informations !!!"})
+            })
+        } catch (error) {
+            res.status(500).json({message : "une erreur est survenue lors du traitement !!!"})
+            console.log("une erreur est survenue..." , error)
+        }
+    }
+
+    /**
+     * @param {request} req
+     * @param {response} res
+     */
+    static async delete(req , res){
+        try {
+            const { id } = req.params
+            const { userId } = req.auth
+            const user = await UtilisateurModel.findById({_id : userId})
+            const theUser = await UtilisateurModel.findById({_id : id})
+            if(!user) res.status(400).json({message : "vous n'avez pas cette autorisation !!!"})
+            const update = {
+                status : 0
+            }
+            if(!theUser)res.status(400).json({status : false ,message : "Aucun utilisateur ne correspond !"})
+            await UtilisateurModel.updateOne({_id : id, status: 1},update)
+            .then(success =>{
+                res.status(200).json({status : true ,message : "Cet utilisateur à été supprimé !!!" , success})
+            })
+            .catch(err =>{
+                res.status(400).json({status : false ,message : "Impossible de supprimer cet utilisateur !!!" , error : err.message})
+            })
+        } catch (error) {
+            res.status(500).json({status : false , message : "une erreur est survenue lors du traitement !!!" , error : error.message})
+            console.log("une erreur est survenue...", error)
+        }
+    }
+
+    /**
+     * 
+     @param {request} req
+     @param {response} res
+     */
+    static async getOne(req , res){
+        try {
+            const { id } = req.params
+            const { userId } = req.auth
+            const userConnected = await UtilisateurModel.findById({_id : userId})
+            if(!userConnected) res.status(400).json({status : false , message : "Vous n'avez pas cette autorisation !!!"})
+            const user = await UtilisateurModel.findById({_id : id})
+            if(!user) res.status(400).json({status : false , message : "Aucun utilisateur ne correspond !!!"})
+            return res.status(200).json({status :true , message : "L'utilisateur que vous recherchez" , user})
+        } catch (error) {
+            res.status(500).json({message : "uen erreur est survenue lors du traitmeent !!!" , error :error.message})
+            console.log("une erreur est survenue..." , error)
+        }
+    }
 }
 
 export default UtilisateurController

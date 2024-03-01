@@ -4,11 +4,8 @@ import tokenValue from '../utils/codeToken.js';
 export const auth = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
-        console.log(token)
-        const token_decoded = jwt.verify(token, tokenValue); // Make sure to replace 'your-secret-key' with your actual secret key
-        console.log('la valeur du token : ', token_decoded);
-        req.auth = { userId: token_decoded._id, email: token_decoded.email };
-        console.log(req.auth.userId)
+        const token_decoded = jwt.verify(token, tokenValue);
+        req.auth = {userId: token_decoded._id};
         next();
     } catch (err) {
         console.log('une erreur est survenue avec le token !!', err);
