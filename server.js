@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import  { mongoConnect }  from "./config/db_connect.js" ;
-import routeUtilisateur from './routers/utilisateur.js'
+import routeUtilisateur from './routers/utilisateur.js';
+import routerProjet from './routers/projet.js';
 
 const app = express()
 app.use(cors())
@@ -18,4 +19,5 @@ mongoConnect()
     console.log('une erreur est survenue' , e.message)
 })
 
-app.use('/api/utilisateur' , routeUtilisateur)
+app.use('/api/utilisateur' , routeUtilisateur);
+app.use('/api/projet' , routerProjet);

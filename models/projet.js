@@ -10,7 +10,7 @@ const ProjetModel = new Schema({
         required : true
     },
     domaine:{
-        typr : String,
+        type : String,
         required : true
     },
     description :{
@@ -22,8 +22,14 @@ const ProjetModel = new Schema({
         required :true
     },
     utilisateur :{
-        type : Schema.type.ObjectId,
-        ref: 'utilisateur'
+        type : Schema.Types.ObjectId,
+        ref: 'utilisateur',
+        required : true
+    },
+    status :{
+        type : Number,
+        default : 1,
+        required : true
     }
 },
     {
