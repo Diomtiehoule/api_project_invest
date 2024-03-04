@@ -3,6 +3,7 @@ import cors from 'cors';
 import  { mongoConnect }  from "./config/db_connect.js" ;
 import routeUtilisateur from './routers/utilisateur.js';
 import routerProjet from './routers/projet.js';
+import routerAdministrateur from './routers/administrateur.js';
 
 const app = express()
 app.use(cors())
@@ -21,3 +22,4 @@ mongoConnect()
 
 app.use('/api/utilisateur' , routeUtilisateur);
 app.use('/api/projet' , routerProjet);
+app.use('/api/admin' , routerAdministrateur);

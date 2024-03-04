@@ -4,6 +4,8 @@
   "description": "backend du projet project invest",
   "type": "module",
   "main": "server.js",
+  "repository": "https://github.com/Diomtiehoule/api_project_invest.git",
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"

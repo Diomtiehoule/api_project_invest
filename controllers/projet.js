@@ -67,7 +67,32 @@ class ProjetController{
             if(!userConnected && !adminConnected) res.status(400).json({message : "Vous n'avez pas cette autorisation !!!"})
             const allProjet = await ProjetModel.find({status : 1})
             if(!allProjet) res.status(400).json({status : false ,message : "Aucune liste disponible..."})
-            res.status(200).json({status : false ,message : "La liste de tout les projets..." , allProjet})
+            res.status(200).json({status : true ,message : "La liste de tout les projets..." , allProjet})
+        } catch (error) {
+            res.status(500).json({status : false ,message : "une erreur est survenue lors du traitement !!!" , error : error.message})
+        }
+    }
+
+    /**
+     * @param {request} req
+     * @param {response} res
+     */
+    static async edit(req , res){
+        try {
+            const { id } = req.params
+            const {userId}= req.auth
+            const userConnected = await UtilisateurModel.findById({ _id : userId , status : 1})
+            if(!userConnected) res.status(400).json({status : false , message : "vous n'avez pas cette autorisation !!!"})
+            const projet = await ProjetModel.findById({_id : id , status : 1})
+            if(!projet) res.status(400).json({message : "Aucun projet ne correspond !!!"})
+            const infos = {
+                "titre" : req.body.titre,
+                "type" : req.body.type,
+                ...req.body
+            }
+            const updated = await ProjetModel.updateOne({_id : id , status : 1} , infos)
+            if(!updated) res.status(400).json({status : false , message : "mise à jours impossible des informations !!!"})
+            return res.status(200).json({status : true , message : "mise à jours des information !!!"})
         } catch (error) {
             res.status(500).json({status : false ,message : "une erreur est survenue lors du traitement !!!" , error : error.message})
         }

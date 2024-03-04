@@ -28,7 +28,7 @@ class UtilisateurController {
             console.log(err)
         })
         } catch (error) {
-            res.status(400).json({message : "une erreur est survenu lors du traitement !!!"})
+            res.status(500).json({message : "une erreur est survenu lors du traitement !!!"})
             console.log(error)
         }
     }
@@ -43,12 +43,12 @@ class UtilisateurController {
             const utilisateur = await UtilisateurModel.findOne({email})
             if(!utilisateur) return res.status(400).json({message : "Adresse mail ou mot de passe incorretct !!"})
             const pwtCorrect = bcrypt.compare(password , utilisateur.password)
-            if(!pwtCorrect)return res.status(400).json({status : false , message : 'Adresse mail ou mot de passe incorrect'})
+            if(!pwtCorrect) return res.status(400).json({status : false , message : 'Adresse mail ou mot de passe incorrect'})
             res.cookie('token' , generateToken(utilisateur.toObject()))
             res.status(200).json({status : true ,message : 'connexion éffectuée !!!' , token : generateToken(utilisateur.toObject()) , utilisateur})
         }
         catch(err){
-            res.status(400).json({message : "une erreur est survenue !!!"})
+            res.status(500).json({message : "une erreur est survenue !!!" , error : err.message})
         }
     }
 
